@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <input type="file" @change="handleFileChange" />
@@ -48,7 +47,7 @@ export default {
         });
 
         this.$message.success("Upload success, check /target directory");
-        this.status = Status.wait;
+        this.status = 'wait';
       };
     },
     async downloadFile(fileHash) {
@@ -64,7 +63,7 @@ export default {
       const decrypted = CryptoJS.AES.decrypt(encryptedData, 'your-encryption-key');
       const decryptedWordArray = CryptoJS.lib.WordArray.create(decrypted.toString(CryptoJS.enc.Utf8));
 
-      const blob = new Blob([decryptedWordArray], { type: "application/vnd.android.package-archive" });
+      const blob = new Blob([decryptedWordArray], { type: "application/octet-stream" });
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
       link.download = 'filename.apk';
@@ -73,37 +72,3 @@ export default {
   }
 };
 </script>
-"""
-
-with open(os.path.join(src_dir, 'App.vue'), 'w') as file:
-    file.write(app_vue_content)
-
-# Create a basic package.json file
-package_json_content = """
-{
-  "name": "vue-upload-encrypt",
-  "version": "1.0.0",
-  "scripts": {
-    "serve": "vue-cli-service serve"
-  },
-  "dependencies": {
-    "crypto-js": "^4.1.1",
-    "vue": "^2.6.11"
-  },
-  "devDependencies": {
-    "@vue/cli-service": "^4.5.0"
-  }
-}
-"""
-
-with open(os.path.join(project_dir, 'package.json'), 'w') as file:
-    file.write(package_json_content)
-
-# Zip the created directory structure
-zip_filename = '/mnt/data/vue-upload-encrypt.zip'
-with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
-    for root, dirs, files in os.walk(project_dir):
-        for file in files:
-            zipf.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), project_dir))
-
-zip_filename

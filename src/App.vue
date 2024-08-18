@@ -1,13 +1,4 @@
-import os
-import zipfile
 
-# Create the directory structure and files for the Vue project
-project_dir = '/mnt/data/vue-upload-encrypt'
-src_dir = os.path.join(project_dir, 'src')
-os.makedirs(src_dir, exist_ok=True)
-
-# Create the main Vue component file with the provided content
-app_vue_content = """
 <template>
   <div>
     <input type="file" @change="handleFileChange" />

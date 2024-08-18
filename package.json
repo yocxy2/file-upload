@@ -2,8 +2,7 @@
   "name": "file-upload",
   "version": "1.0.0",
   "description": "large file upload",
-  "engines": {
-    "node": "14.x"
+ "engines": { "node": "20.x" 
   },
   "main": "index.js",
   "scripts": {
